@@ -55,8 +55,9 @@ var retweet = function() {
         text = data.statuses[0].text;              
         if(name != "lmcDevloper"){
           if(text.indexOf("https") != -1){
-            console.log(data.statuses[0].text)
-            text = data.statuses[0].text;
+            console.log(data.statuses[0].text)            
+            var link = text.split("https")[1].split(" ")[0];
+            text = data.statuses[0].text + " > Enlace: " + link;
             postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
           } 
           else{
