@@ -1,3 +1,9 @@
+const express = require('express')
+const path = require('path')
+const PORT = process.env.PORT || 5000
+var text = 'var Text'
+var name = 'Var Name'
+
 var Twitter = require('twitter');
 var config = require('./config.js');
 var Twitter = new Twitter(config);
@@ -24,7 +30,7 @@ var retweet = function() {
     Twitter.get('search/tweets', params, function(err, data) {
       console.log("Dentro!");
       // if there no errors
-        if (!err) {
+        if (!err) {          
           // grab ID of tweet to retweet
             var retweetId = data.statuses[0].id_str;
             console.log("retweetId = " + retweetId);
@@ -46,14 +52,16 @@ var retweet = function() {
           console.log('Something went wrong while SEARCHING...');
         }
         console.log(data.statuses[0].text)
+        text = data.statuses[0].text;
+        name = data.statuses[0].user.name;
         postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
     });
 }
-
-// grab & retweet as soon as program is running...
 retweet();
+// grab & retweet as soon as program is running...
+//retweet();
 // retweet in every 50 minutes
-setInterval(retweet, 3000000);
+//setInterval(retweet, 3000000);
 
 // FAVORITE BOT====================
 
@@ -109,3 +117,11 @@ var postTweet = function(txt){
   });
 }
 // postTweet('Hello World, Of Course by Nodejs!\nSalto de Línea');
+
+
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index', {text:text, name:name}))
+  .listen(PORT, () => console.log(`Listening on http://localhost:${ PORT }`))
