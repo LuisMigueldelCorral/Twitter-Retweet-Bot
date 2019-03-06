@@ -1,12 +1,14 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
-var text = 'var Text'
-var name = 'Var Name'
+
+var text = 'var Text';
+var name = 'Var Name';
 
 var Twitter = require('twitter');
 var config = require('./config.js');
 var Twitter = new Twitter(config);
+var router = express.Router();
 
 // Set up your search parameters
 // https://hackernoon.com/create-a-simple-twitter-bot-with-node-js-5b14eb006c08
