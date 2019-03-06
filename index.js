@@ -63,7 +63,7 @@ var retweet = function() {
             postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
           } 
           else{
-              text = "Vaya estas intentando hacer retweet de un post que no tiene URL: <a href='https" + text + "'>Enlace</a>"
+              text = "Vaya estas intentando hacer retweet de un post que no tiene URL: https" + text;
               console.log(data.statuses[0].text)
           }
         }               
