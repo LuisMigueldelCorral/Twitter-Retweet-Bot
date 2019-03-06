@@ -3,8 +3,8 @@ const app = express();
 const path = require('path')
 const PORT = process.env.PORT || 5000
 
-var text = 'var Text';
-var name = 'Var Name';
+var text = 'text';
+var name = 'name';
 
 var Twitter = require('twitter');
 var config = require('./config.js');
@@ -37,7 +37,7 @@ var retweet = function() {
       // if there no errors
         if (!err) {          
           // grab ID of tweet to retweet
-            if(typeof data.statuses[0].id_str != "undefined"){
+            if(typeof data.statuses[0] != "undefined" && typeof data.statuses[0].id_str != "undefined"){
               var retweetId = data.statuses[0].id_str;
               console.log("retweetId = " + retweetId);
               // Tell TWITTER to retweet
@@ -52,6 +52,25 @@ var retweet = function() {
                       console.log('Something went wrong while RETWEETING... Duplication maybe...');
                   }
               });
+              name = data.statuses[0].user.name;  
+              text = data.statuses[0].text;              
+              if(name != "lmcDevloper"){
+                if(text.indexOf("https") != -1){
+                  console.log(data.statuses[0].text)            
+                  var link = text.split("https")[1].split(" ")[0];
+                  text = data.statuses[0].text + " > Enlace: " + link;
+                  postTweet("https" + link + "\n\n" + "\n\n#Nodejs\n\nvia @" + data.statuses[0].user.user_id)
+                  //postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
+                } 
+                else{
+                    text = "Vaya estas intentando hacer retweet de un post que no tiene URL: https" + text;
+                    console.log(data.statuses[0].text)
+                }
+              }               
+              else{
+                text = "Vaya estas intentando hacer retweet de un post propio"
+                console.log(text)
+              }              
             }
             else{
               console.log('ID sin identificar');
@@ -61,27 +80,9 @@ var retweet = function() {
         else {
           console.log('Something went wrong while SEARCHING...');
         }
-        name = data.statuses[0].user.name;  
-        text = data.statuses[0].text;              
-        if(name != "lmcDevloper"){
-          if(text.indexOf("https") != -1){
-            console.log(data.statuses[0].text)            
-            var link = text.split("https")[1].split(" ")[0];
-            text = data.statuses[0].text + " > Enlace: " + link;
-            postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
-          } 
-          else{
-              text = "Vaya estas intentando hacer retweet de un post que no tiene URL: https" + text;
-              console.log(data.statuses[0].text)
-          }
-        }               
-        else{
-          text = "Vaya estas intentando hacer retweet de un post propio"
-          console.log(text)
-        }
     });
 }
-retweet();
+//retweet();
 // grab & retweet as soon as program is running...
 //retweet();
 // retweet in every 50 minutes
@@ -104,7 +105,7 @@ var favoriteTweet = function(){
     var randomTweet = ranDom(tweet);   // pick a random tweet
 
     // if random tweet exists
-    if(typeof randomTweet != 'undefined'){
+    if(typeof randomTweet != 'undefined' && typeof randomTweet.id_str != 'undefined'){
       // Tell TWITTER to 'favorite'
       Twitter.post('favorites/create', {id: randomTweet.id_str}, function(err, response){
         // if there was an error while 'favorite'
@@ -116,6 +117,8 @@ var favoriteTweet = function(){
         }
       });
     }
+    name = "favoriteTweet";
+    text = JSON.stringify(data);
     console.log(data)
   });
 }
@@ -130,23 +133,39 @@ function ranDom (arr) {
   return arr[index];
 };
 
-var postTweet = function(txt){
+var postTweet = function(txt, res){
   var params = {
       q: '#nodejs, #Nodejs',  // REQUIRED
       result_type: 'recent',
       lang: 'es'
   }
   Twitter.post('statuses/update', { status: txt }, function(err, data, response) {
-    console.log(data)
+    console.log("res = " + data);
+    //console.log(data);
+    name = "postTweet";
+    text = JSON.stringify(data);
   });
 }
 // postTweet('Hello World, Of Course by Nodejs!\nSalto de Línea');
 
-function buttonAction1(res){
-    res.send('ok');
-}
-router.get("/test1", function (req, res) {
-    buttonAction1(res);
+router.get("/postTweet", function (req, res) {
+    //postTweet(res); 
+    res.send("ok: " + req.body); 
+    
+});
+
+router.get("/favoriteTweet", function (req, res) {
+    favoriteTweet();
+    res.send("ok");  
+});
+
+router.get("/retweet", function (req, res) {
+    retweet();
+    res.send("ok");
+});
+
+router.get("/update", function (req, res) {
+    res.send({text:text, name:name});  
 });
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -154,5 +173,6 @@ app.use(express.static(path.join(__dirname, 'public')))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index', {text:text, name:name}))
   .listen(PORT, () => console.log(`Listening on http://localhost:${ PORT }`))
+
 
 

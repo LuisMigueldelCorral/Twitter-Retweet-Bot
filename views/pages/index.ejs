@@ -11,10 +11,18 @@
   <div class="jumbotron text-center">
    
     <div class="container">
-       <p><%= name %></p>
-       <p><%= text %></p>
+		<p><u>Content</u></p>
+		<p style="text-align: left;">Name: <span class="name"><%= name %></span></p>
+		<p style="text-align: left;">Text: <span class="text"><%= text %></span></p>
     </div>
-    <button id='button1'> Reload </button>
+
+    <textarea name="msgText" style="width: 60%;margin: 5px auto;display: block;padding: 5px" placeholder="Introduzca aqui su mensaje"></textarea>
+   
+
+    <button id='update' class="btn btn-default ajax"> update </button>
+    <button id='postTweet' class="btn btn-default ajax"> postTweet </button>
+    <button id='favoriteTweet' class="btn btn-default ajax"> favoriteTweet </button>
+    <button id='retweet' class="btn btn-default ajax"> retweet </button>
   </div>
 
 
