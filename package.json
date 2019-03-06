@@ -5,7 +5,7 @@
   "main": "follow.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,9 @@
   "homepage": "https://github.com/LuisMigueldelCorral/Twitter-Follow-Bot#readme",
   "dependencies": {
     "ejs": "^2.6.1",
-    "entities": "^1.1.2",
     "express": "^4.16.4",
     "path": "^0.12.7",
-    "rss-parser": "^3.6.2",
     "twit": "^2.2.11",
-    "twitter": "^1.7.1",
-    "xml2js": "^0.4.19"
+    "twitter": "^1.7.1"
   }
 }
