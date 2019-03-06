@@ -75,7 +75,7 @@ retweet();
 // grab & retweet as soon as program is running...
 //retweet();
 // retweet in every 50 minutes
-setInterval(retweet, 3000000);
+// setInterval(retweet, 3000000);
 
 // FAVORITE BOT====================
 
@@ -132,6 +132,12 @@ var postTweet = function(txt){
 }
 // postTweet('Hello World, Of Course by Nodejs!\nSalto de Línea');
 
+function buttonAction1(res){
+    res.send('ok');
+}
+router.get("/test1", function (req, res) {
+    buttonAction1(res);
+});
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -139,3 +145,5 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index', {text:text, name:name}))
   .listen(PORT, () => console.log(`Listening on http://localhost:${ PORT }`))
+
+
