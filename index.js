@@ -8,8 +8,10 @@ var name = 'Var Name';
 var Twitter = require('twitter');
 var config = require('./config.js');
 var Twitter = new Twitter(config);
+var app = express();
 var router = express.Router();
-
+// call our router we just created
+app.use(router);
 // Set up your search parameters
 // https://hackernoon.com/create-a-simple-twitter-bot-with-node-js-5b14eb006c08
 // https://www.codewall.co.uk/twitter-bot-tutorial-retweet-nodejs/
