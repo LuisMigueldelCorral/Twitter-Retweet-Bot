@@ -1,0 +1,31 @@
+{
+  "name": "twitter-follow-bot",
+  "version": "1.0.0",
+  "description": "twitter follow bot",
+  "main": "follow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisMigueldelCorral/Twitter-Retweet-Bot"
+  },
+  "keywords": [
+    "twitter",
+    "bot",
+    "node"
+  ],
+  "author": "Luis Miguel del Corral",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisMigueldelCorral/Twitter-Retweet-Bot/issues"
+  },
+  "homepage": "https://github.com/LuisMigueldelCorral/Twitter-Follow-Bot#readme",
+  "dependencies": {
+    "entities": "^1.1.2",
+    "rss-parser": "^3.6.2",
+    "twit": "^2.2.11",
+    "twitter": "^1.7.1",
+    "xml2js": "^0.4.19"
+  }
+}
