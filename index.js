@@ -61,7 +61,7 @@ var retweet = function() {
             postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
           } 
           else{
-              text = "Vaya estas intentando hacer retweet de un post que no tiene URL:" + text
+              text = "Vaya estas intentando hacer retweet de un post que no tiene URL: <a href='https" + text + "'>Enlace</a>"
               console.log(data.statuses[0].text)
           }
         }               
@@ -75,7 +75,7 @@ retweet();
 // grab & retweet as soon as program is running...
 //retweet();
 // retweet in every 50 minutes
-//setInterval(retweet, 3000000);
+setInterval(retweet, 3000000);
 
 // FAVORITE BOT====================
 
