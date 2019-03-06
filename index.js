@@ -1,4 +1,5 @@
 const express = require('express')
+const app = express();
 const path = require('path')
 const PORT = process.env.PORT || 5000
 
@@ -8,7 +9,7 @@ var name = 'Var Name';
 var Twitter = require('twitter');
 var config = require('./config.js');
 var Twitter = new Twitter(config);
-var app = express();
+
 var router = express.Router();
 // call our router we just created
 app.use(router);
@@ -36,20 +37,25 @@ var retweet = function() {
       // if there no errors
         if (!err) {          
           // grab ID of tweet to retweet
-            var retweetId = data.statuses[0].id_str;
-            console.log("retweetId = " + retweetId);
-            // Tell TWITTER to retweet
-            Twitter.post('statuses/retweet/:id', {
-                id: retweetId
-            }, function(err, response) {
-                if (response) {
-                    console.log('Retweeted!!!');
-                }
-                // if there was an error while tweeting
-                if (err) {
-                    console.log('Something went wrong while RETWEETING... Duplication maybe...');
-                }
-            });
+            if(typeof data.statuses[0].id_str != "undefined"){
+              var retweetId = data.statuses[0].id_str;
+              console.log("retweetId = " + retweetId);
+              // Tell TWITTER to retweet
+              Twitter.post('statuses/retweet/:id', {
+                  id: retweetId
+              }, function(err, response) {
+                  if (response) {
+                      console.log('Retweeted!!!');
+                  }
+                  // if there was an error while tweeting
+                  if (err) {
+                      console.log('Something went wrong while RETWEETING... Duplication maybe...');
+                  }
+              });
+            }
+            else{
+              console.log('ID sin identificar');
+            }
         }
         // if unable to Search a tweet
         else {
@@ -143,8 +149,7 @@ router.get("/test1", function (req, res) {
     buttonAction1(res);
 });
 
-express()
-  .use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index', {text:text, name:name}))
