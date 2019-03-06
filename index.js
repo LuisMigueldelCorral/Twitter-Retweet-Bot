@@ -51,10 +51,23 @@ var retweet = function() {
         else {
           console.log('Something went wrong while SEARCHING...');
         }
-        console.log(data.statuses[0].text)
-        text = data.statuses[0].text;
-        name = data.statuses[0].user.name;
-        postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
+        name = data.statuses[0].user.name;  
+        text = data.statuses[0].text;              
+        if(name != "lmcDevloper"){
+          if(text.indexOf("https") != -1){
+            console.log(data.statuses[0].text)
+            text = data.statuses[0].text;
+            postTweet(data.statuses[0].text + "\n\n" + "via @" + data.statuses[0].user.name)
+          } 
+          else{
+              text = "Vaya estas intentando hacer retweet de un post que no tiene URL:" + text
+              console.log(data.statuses[0].text)
+          }
+        }               
+        else{
+          text = "Vaya estas intentando hacer retweet de un post propio"
+          console.log(text)
+        }
     });
 }
 retweet();
